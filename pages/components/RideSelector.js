@@ -1,7 +1,12 @@
+// import * as dotenv from "dotenv";
+// dotenv.config();
+
 import React from "react";
 import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 import { carList } from "../../data/carList";
+
+const mapboxToken = process.env.MAPBOX_TOKEN;
 
 const RideSelector = (props) => {
   const [rideDuration, setRideDuration] = useState(0);
@@ -19,11 +24,13 @@ const RideSelector = (props) => {
     fetch(
       `https://api.mapbox.com/directions/v5/mapbox/driving/${props.pickupCoordinate[0]},${props.pickupCoordinate[1]};${props.dropoffCoordinate[0]},${props.dropoffCoordinate[1]}?` +
         new URLSearchParams({
-          access_token: "YOUR_ACCESS_TOKEN",
+          access_token: mapboxToken,
         })
     )
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
+
         if (data.routes[0]) {
           setRideDuration(data.routes[0].duration / 100);
         }
@@ -42,7 +49,7 @@ const RideSelector = (props) => {
               <Time>5 min away</Time>
             </CarDetails>
             <CarPrice>
-              {"$" + (rideDuration * car.multiplier).toFixed(2)}
+              {"₹" + (rideDuration * car.multiplier).toFixed(2)}
             </CarPrice>
           </Car>
         ))}
@@ -52,11 +59,11 @@ const RideSelector = (props) => {
 };
 
 const Wrapper = tw.div`
- flex-1  overflow-y-scroll flex flex-col flex flex-col
+ flex-1  overflow-y-scroll flex flex-col flex flex-col bg-black
 `;
 
 const Title = tw.div`
-text-center text-s text-gray-500 border-b py-2
+text-center text-s text-gray-700 border-b py-2
 `;
 const CarList = tw.div`
 border-b overflow-y-scroll 
@@ -73,13 +80,13 @@ const CarDetails = tw.div`
 flex-1 px-8
 `;
 const Service = tw.div`
-font-semibold`;
+font-semibold text-white`;
 const Time = tw.div`
-text-blue-500 text-xs
+text-blue-600 text-xs 
 `;
 
 const CarPrice = tw.div`
-px-4 text-sm
+px-4 text-sm text-white
 `;
 
 export default RideSelector;

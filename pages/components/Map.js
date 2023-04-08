@@ -1,8 +1,10 @@
+// import * as dotenv from "dotenv";
+// dotenv.config();
 import { useEffect } from "react";
 import tw from "tailwind-styled-components";
 import mapboxgl from "!mapbox-gl";
 
-mapboxgl.accessToken = "YOUR_ACCESS_TOKEN";
+mapboxgl.accessToken = process.env.MAPBOX_TOKEN;
 
 const Map = (props) => {
   useEffect(() => {
@@ -11,7 +13,7 @@ const Map = (props) => {
 
     const map = new mapboxgl.Map({
       container: "map",
-      style: "mapbox://styles/mapbox/streets-v11",
+      style: "mapbox://styles/mapbox/navigation-night-v1",
       center: [-96, 37.8],
       zoom: 3,
     });

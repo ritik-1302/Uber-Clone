@@ -1,9 +1,13 @@
+// import * as dotenv from 'dotenv'
+// dotenv.config()
 import { useEffect, useState } from "react";
 import tw from "tailwind-styled-components";
 import Map from "./components/Map";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import RideSelector from "./components/RideSelector";
+
+const mapboxToken=process.env.MAPBOX_TOKEN;
 
 const Confirm = () => {
   const router = useRouter();
@@ -19,7 +23,7 @@ const Confirm = () => {
     fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${pickuplocation}.json?` +
         new URLSearchParams({
-          access_token: "YOUR_ACCESS_TOKEN",
+          access_token: mapboxToken,
           limit: 1,
         })
     )
@@ -33,7 +37,7 @@ const Confirm = () => {
     fetch(
       `https://api.mapbox.com/geocoding/v5/mapbox.places/${dropofflocation}.json?` +
         new URLSearchParams({
-          access_token: "YOUR_ACCESS_TOKEN",
+          access_token: mapboxToken,
           limit: 1,
         })
     )
@@ -52,7 +56,7 @@ const Confirm = () => {
     <Wrapper>
       <ButtonContainer>
         <Link href="/search" passHref>
-          <BackButton src="https://img.icons8.com/ios-filled/50/000000/left.png" />
+          <BackButton  src="https://img.icons8.com/ios-filled/50/000000/left.png" />
         </Link>
       </ButtonContainer>
 
@@ -72,7 +76,7 @@ const Confirm = () => {
 };
 
 const Wrapper = tw.div`
- flex flex-col h-screen 
+ flex flex-col h-screen bg-black
 `;
 
 const RideContainer = tw.div`
@@ -80,7 +84,7 @@ flex-1  h-1/2 overflow-y-scroll flex flex-col
 `;
 
 const ConfirmButtonContainer = tw.div`
-bg-black flex text-xl  items-center py-4 text-white mt-4 justify-center text-center m-4 transform hover:scale-105 transition cursor-pointer
+bg-black flex text-xl items-center py-4 text-white mt-4 justify-center text-center m-4 transform hover:scale-105 transition cursor-pointer
 
 `;
 const ButtonContainer = tw.div`
@@ -88,7 +92,7 @@ rounded-full absolute top-4 left-4 z-10 bg-white shadow-md cursor-pointer
 `;
 
 const BackButton = tw.img`
-h-full object-contain   
+  h-full object-contain 
 `;
 
 export default Confirm;
